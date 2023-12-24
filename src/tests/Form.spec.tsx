@@ -10,6 +10,7 @@ describe('Form Component', () => {
     render(<Form />);
 
     const inputName = screen.getByRole('textbox', { name: 'Name' });
+    const inputLastName = screen.getByRole('textbox', { name: 'Last-Name' });
     const inputEmail = screen.getByRole('textbox', { name: 'E-mail' });
     const inputAge = screen.getByRole('spinbutton', { name: 'Age' });
     const inputSelectGender = screen.getByRole('combobox', {
@@ -27,6 +28,7 @@ describe('Form Component', () => {
     const buttonSubmit = screen.getByRole('button', { name: /Send/i });
 
     expect(inputName).toBeVisible();
+    expect(inputLastName).toBeVisible();
     expect(inputEmail).toBeVisible();
     expect(inputAge).toBeVisible();
     expect(inputSelectGender).toBeVisible();
