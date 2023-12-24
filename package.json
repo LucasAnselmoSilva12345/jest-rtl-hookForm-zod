@@ -12,7 +12,8 @@
     "test:home": "jest src/tests/Home.spec.tsx --watchAll",
     "test:route": "jest src/tests/Route.spec.tsx --watchAll",
     "test:header": "jest src/tests/Header.spec.tsx --watchAll",
-    "test:modetoggletheme": "jest src/tests/ModeToggle.spec.tsx --watchAll"
+    "test:modetoggletheme": "jest src/tests/ModeToggle.spec.tsx --watchAll",
+    "test:form": "jest src/tests/Form.spec.tsx --watchAll"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
