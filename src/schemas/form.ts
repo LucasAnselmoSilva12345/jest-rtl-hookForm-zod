@@ -10,9 +10,8 @@ export const formSchema = z
     }),
     email: z
       .string()
-      .min(1, { message: 'This field email should be filled' })
       .email('Please enter a valid email')
-      .endsWith('@gmail.com', 'Please use a Gmail account'),
+      .min(1, { message: 'This field email should be filled' }),
     age: z
       .number({
         errorMap: () => {

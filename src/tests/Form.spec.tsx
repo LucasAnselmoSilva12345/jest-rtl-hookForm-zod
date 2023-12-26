@@ -65,9 +65,7 @@ describe('Form Component', () => {
       expect(
         screen.getByText('Please enter a positive number or leave empty')
       ).toBeVisible();
-      expect(
-        screen.getByText('This field email should be filled')
-      ).toBeVisible();
+      expect(screen.getByText('Please enter a valid email')).toBeVisible();
       expect(screen.getByText('Please select an option')).toBeVisible();
       expect(screen.getByText('Please enter a valid URL')).toBeVisible();
       expect(screen.getByText('Please provide your profession')).toBeVisible();
@@ -140,7 +138,7 @@ describe('Form Component', () => {
         )
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByText('This field email should be filled')
+        screen.queryByText('Please enter a valid email')
       ).not.toBeInTheDocument();
       expect(
         screen.queryByText('Please enter a positive number or leave empty')
@@ -193,6 +191,22 @@ describe('Form Component', () => {
       expect(
         screen.getByText('Please enter a positive number or leave empty')
       ).toBeVisible();
+    });
+  });
+
+  it('should show email field error message when the value is not valid email', async () => {
+    render(<Form />);
+
+    const inputEmail = screen.getByRole('textbox', { name: 'E-mail' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      userEvent.type(inputEmail, 'brucewayne');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Please enter a valid email')).toBeVisible();
     });
   });
 });
