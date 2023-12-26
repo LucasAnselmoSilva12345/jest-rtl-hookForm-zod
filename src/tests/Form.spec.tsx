@@ -225,4 +225,47 @@ describe('Form Component', () => {
       expect(screen.getByText('Please enter a valid URL')).toBeVisible();
     });
   });
+
+  it('should isStudent field error message when the value is not "yes" or "no"', async () => {
+    render(<Form />);
+
+    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      userEvent.clear(inputIsStuddent);
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
+    });
+  });
+
+  it('should isStudent field error message when the first letter of value was in uppercase', async () => {
+    render(<Form />);
+
+    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      userEvent.clear(inputIsStuddent);
+      userEvent.type(inputIsStuddent, 'Yes');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
+    });
+
+    act(() => {
+      userEvent.clear(inputIsStuddent);
+      userEvent.type(inputIsStuddent, 'No');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
+    });
+  });
 });
