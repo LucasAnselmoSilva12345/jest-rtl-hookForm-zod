@@ -1,6 +1,12 @@
 import userEvent from '@testing-library/user-event';
 import { Form } from '../components/Form';
-import { screen, render, act, waitFor } from '@testing-library/react';
+import {
+  screen,
+  render,
+  act,
+  waitFor,
+  fireEvent,
+} from '@testing-library/react';
 
 describe('Form Component', () => {
   it('should render form', () => {
@@ -266,6 +272,27 @@ describe('Form Component', () => {
 
     await waitFor(() => {
       expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
+    });
+  });
+
+  it('should confirm password field show error message when the passwords is not equals', async () => {
+    render(<Form />);
+
+    const inputPassword = screen.getByLabelText('Password');
+    const inputConfirmPassword = screen.getByLabelText('Confirm-Password');
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      fireEvent.change(inputPassword, { target: { value: 'bruceWayne2023' } });
+      fireEvent.change(inputConfirmPassword, {
+        target: { value: 'bruceWayne202' },
+      });
+
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('The passwords should be equals')).toBeVisible();
     });
   });
 });
