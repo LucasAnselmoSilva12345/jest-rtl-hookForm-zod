@@ -14,9 +14,22 @@ export const formSchema = z
       .email('Please enter a valid email')
       .endsWith('@gmail.com', 'Please use a Gmail account'),
     age: z
-      .number()
-      .min(0, { message: 'Please enter a positive number or leave empty' })
-      .nullable(),
+      .number({
+        errorMap: () => {
+          return {
+            message: 'Please enter a positive number or leave empty',
+          };
+        },
+      })
+      .positive('Please enter a positive number or leave empty'),
+    // age: z
+    //   .number()
+    //   .int()
+    //   .min(0, { message: 'Please enter a positive number or leave empty' }),
+    // age: z
+    //   .number()
+    //   .min(0, { message: 'Please enter a positive number or leave empty' })
+    //   .nullable(),
     selectGender: z.string().min(1, 'Please select an option'),
     photoURL: z.string().url('Please enter a valid URL'),
     profession: z.string().min(1, 'Please provide your profession'),

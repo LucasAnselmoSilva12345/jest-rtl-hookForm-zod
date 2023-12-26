@@ -63,6 +63,9 @@ describe('Form Component', () => {
         )
       ).toBeVisible();
       expect(
+        screen.getByText('Please enter a positive number or leave empty')
+      ).toBeVisible();
+      expect(
         screen.getByText('This field email should be filled')
       ).toBeVisible();
       expect(screen.getByText('Please select an option')).toBeVisible();
@@ -108,6 +111,7 @@ describe('Form Component', () => {
     act(() => {
       userEvent.type(inputName, 'Bruce');
       userEvent.type(inputLastName, 'Wayne');
+      userEvent.clear(inputAge);
       userEvent.type(inputAge, '10');
       userEvent.type(inputEmail, 'brucewayne@gmail.com');
       userEvent.type(inputSelectGender, 'Male');
@@ -170,6 +174,25 @@ describe('Form Component', () => {
       expect(
         screen.queryByText('Please accept the terms')
       ).not.toBeInTheDocument();
+    });
+  });
+
+  it('should show age field error message when the value is not positive', async () => {
+    render(<Form />);
+
+    const inputAge = screen.getByRole('spinbutton', { name: 'Age' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      userEvent.clear(inputAge);
+      userEvent.type(inputAge, '-10');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('Please enter a positive number or leave empty')
+      ).toBeVisible();
     });
   });
 });
