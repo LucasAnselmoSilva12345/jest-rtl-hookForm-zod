@@ -209,4 +209,20 @@ describe('Form Component', () => {
       expect(screen.getByText('Please enter a valid email')).toBeVisible();
     });
   });
+
+  it('should show photo field error message when the value is not the URL', async () => {
+    render(<Form />);
+
+    const inputPhotURL = screen.getByRole('textbox', { name: 'Photo-URL' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      userEvent.type(inputPhotURL, 'exampleofurl');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Please enter a valid URL')).toBeVisible();
+    });
+  });
 });
