@@ -1,4 +1,4 @@
-import { formSchema } from '@/schemas/form';
+import { formSchema } from '../schemas/form';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
