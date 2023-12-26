@@ -1,37 +1,30 @@
 import * as z from 'zod';
 
-const minLengthErrorMessage = 'This field should have at least one character';
-const validNumberErrorMessage = 'Please enter a valid number';
-const emailErrorMessage = 'Please enter a valid email';
-const gmailAccountErrorMessage = 'Please use a Gmail account';
-const selectOptionErrorMessage = 'Please select an option';
-const urlErrorMessage = 'Please enter a valid URL';
-const professionErrorMessage = 'Please provide your profession';
-const passwordLengthErrorMessage = 'Password should be at least six characters';
-const passwordShouldBeEquals = 'The passwords should be equals';
-const termsErrorMessage = 'Please accept the terms';
-
 export const formSchema = z
   .object({
-    name: z.string().min(1, { message: minLengthErrorMessage }),
-    lastName: z.string().min(1, { message: minLengthErrorMessage }),
+    name: z
+      .string()
+      .min(1, { message: 'The field name should have at least one character' }),
+    lastName: z.string().min(1, {
+      message: 'The field last name should have at least one character',
+    }),
     email: z
       .string()
-      .min(1, { message: 'This field should be filled' })
-      .email(emailErrorMessage)
-      .endsWith('@gmail.com', gmailAccountErrorMessage),
+      .min(1, { message: 'This field email should be filled' })
+      .email('Please enter a valid email')
+      .endsWith('@gmail.com', 'Please use a Gmail account'),
     age: z
       .number({
         errorMap: () => {
           return {
-            message: validNumberErrorMessage,
+            message: 'Please enter a valid number',
           };
         },
       })
-      .positive(validNumberErrorMessage),
-    selectGender: z.string().min(1, selectOptionErrorMessage),
-    photoURL: z.string().url(urlErrorMessage),
-    profession: z.string().min(1, professionErrorMessage),
+      .positive('Please enter a positive number'),
+    selectGender: z.string().min(1, 'Please select an option'),
+    photoURL: z.string().url('Please enter a valid URL'),
+    profession: z.string().min(1, 'Please provide your profession'),
     isStudent: z.enum(['yes', 'no'], {
       errorMap: () => {
         return {
@@ -39,21 +32,27 @@ export const formSchema = z
         };
       },
     }),
-    city: z.string().min(1, { message: minLengthErrorMessage }),
-    state: z.string().min(1, { message: minLengthErrorMessage }),
-    country: z.string().min(1, { message: minLengthErrorMessage }),
-    password: z.string().min(6, passwordLengthErrorMessage),
+    city: z
+      .string()
+      .min(1, { message: 'The field city should have at least one character' }),
+    state: z.string().min(1, {
+      message: 'The field state should have at least one character',
+    }),
+    country: z.string().min(1, {
+      message: 'The country state should have at least one character',
+    }),
+    password: z.string().min(6, 'Password should be at least six characters'),
     confirmPassword: z.string(),
     agreeTerms: z
       .boolean()
       .default(false)
       .refine((val) => val === true, {
-        message: termsErrorMessage,
+        message: 'Please accept the terms',
       }),
   })
   .refine((fields) => fields.password === fields.confirmPassword, {
     path: ['confirmPassword'],
-    message: passwordShouldBeEquals,
+    message: 'The passwords should be equals',
   })
   .transform((fields) => ({
     name: fields.name.toLocaleLowerCase(),
