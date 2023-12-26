@@ -65,7 +65,6 @@ describe('Form Component', () => {
       expect(
         screen.getByText('This field email should be filled')
       ).toBeVisible();
-      expect(screen.getByText('Please enter a positive number')).toBeVisible();
       expect(screen.getByText('Please select an option')).toBeVisible();
       expect(screen.getByText('Please enter a valid URL')).toBeVisible();
       expect(screen.getByText('Please provide your profession')).toBeVisible();
@@ -140,7 +139,7 @@ describe('Form Component', () => {
         screen.queryByText('This field email should be filled')
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByText('Please enter a positive number')
+        screen.queryByText('Please enter a positive number or leave empty')
       ).not.toBeInTheDocument();
       expect(
         screen.queryByText('Please select an option')

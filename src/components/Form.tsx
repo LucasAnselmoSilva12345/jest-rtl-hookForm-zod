@@ -85,7 +85,11 @@ export function Form() {
             id="age"
             placeholder="age"
             aria-label="Age"
-            {...register('age')}
+            {...register('age', {
+              valueAsNumber: true,
+              setValueAs: (value) =>
+                value === '' || value === '1' ? null : value,
+            })}
           />
           {errors.age && <Warning message={errors.age.message} />}
         </div>
