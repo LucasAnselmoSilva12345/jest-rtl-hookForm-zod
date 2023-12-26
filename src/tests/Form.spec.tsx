@@ -9,13 +9,13 @@ import {
 } from '@testing-library/react';
 
 describe('Form Component', () => {
-  it('should render form', () => {
+  beforeEach(() => {
     render(<Form />);
   });
 
-  it('should render form on user screen', () => {
-    render(<Form />);
+  it('should render form', () => {});
 
+  it('should render form on the screen', () => {
     const inputName = screen.getByRole('textbox', { name: 'Name' });
     const inputLastName = screen.getByRole('textbox', { name: 'Last-Name' });
     const inputEmail = screen.getByRole('textbox', { name: 'E-mail' });
@@ -52,7 +52,6 @@ describe('Form Component', () => {
   });
 
   it('should show error message when fields was empty', async () => {
-    render(<Form />);
     const buttonSubmit = screen.getByRole('button', { name: /Send/i });
 
     act(() => {
@@ -91,9 +90,110 @@ describe('Form Component', () => {
     });
   });
 
-  it('should type into fields and submit form', async () => {
-    render(<Form />);
+  it('should show age field error message when the value is not positive', async () => {
+    const inputAge = screen.getByRole('spinbutton', { name: 'Age' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
 
+    act(() => {
+      userEvent.clear(inputAge);
+      userEvent.type(inputAge, '-10');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('Please enter a positive number or leave empty')
+      ).toBeVisible();
+    });
+  });
+
+  it('should show email field error message when the value is not valid email', async () => {
+    const inputEmail = screen.getByRole('textbox', { name: 'E-mail' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      userEvent.type(inputEmail, 'brucewayne');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Please enter a valid email')).toBeVisible();
+    });
+  });
+
+  it('should show photo field error message when the value is not the URL', async () => {
+    const inputPhotURL = screen.getByRole('textbox', { name: 'Photo-URL' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      userEvent.type(inputPhotURL, 'exampleofurl');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Please enter a valid URL')).toBeVisible();
+    });
+  });
+
+  it('should isStudent field error message when the value is not "yes" or "no"', async () => {
+    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      userEvent.clear(inputIsStuddent);
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
+    });
+  });
+
+  it('should isStudent field error message when the first letter of value was in uppercase', async () => {
+    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      userEvent.clear(inputIsStuddent);
+      userEvent.type(inputIsStuddent, 'Yes');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
+    });
+
+    act(() => {
+      userEvent.clear(inputIsStuddent);
+      userEvent.type(inputIsStuddent, 'No');
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
+    });
+  });
+
+  it('should confirm password field show error message when the passwords is not equals', async () => {
+    const inputPassword = screen.getByLabelText('Password');
+    const inputConfirmPassword = screen.getByLabelText('Confirm-Password');
+    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
+
+    act(() => {
+      fireEvent.change(inputPassword, { target: { value: 'bruceWayne2023' } });
+      fireEvent.change(inputConfirmPassword, {
+        target: { value: 'bruceWayne202' },
+      });
+
+      userEvent.click(buttonSubmit);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('The passwords should be equals')).toBeVisible();
+    });
+  });
+
+  it('should type into fields and submit form', async () => {
     const inputName = screen.getByRole('textbox', { name: 'Name' });
     const inputLastName = screen.getByRole('textbox', { name: 'Last-Name' });
     const inputEmail = screen.getByRole('textbox', { name: 'E-mail' });
@@ -178,121 +278,6 @@ describe('Form Component', () => {
       expect(
         screen.queryByText('Please accept the terms')
       ).not.toBeInTheDocument();
-    });
-  });
-
-  it('should show age field error message when the value is not positive', async () => {
-    render(<Form />);
-
-    const inputAge = screen.getByRole('spinbutton', { name: 'Age' });
-    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
-
-    act(() => {
-      userEvent.clear(inputAge);
-      userEvent.type(inputAge, '-10');
-      userEvent.click(buttonSubmit);
-    });
-
-    await waitFor(() => {
-      expect(
-        screen.getByText('Please enter a positive number or leave empty')
-      ).toBeVisible();
-    });
-  });
-
-  it('should show email field error message when the value is not valid email', async () => {
-    render(<Form />);
-
-    const inputEmail = screen.getByRole('textbox', { name: 'E-mail' });
-    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
-
-    act(() => {
-      userEvent.type(inputEmail, 'brucewayne');
-      userEvent.click(buttonSubmit);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText('Please enter a valid email')).toBeVisible();
-    });
-  });
-
-  it('should show photo field error message when the value is not the URL', async () => {
-    render(<Form />);
-
-    const inputPhotURL = screen.getByRole('textbox', { name: 'Photo-URL' });
-    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
-
-    act(() => {
-      userEvent.type(inputPhotURL, 'exampleofurl');
-      userEvent.click(buttonSubmit);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText('Please enter a valid URL')).toBeVisible();
-    });
-  });
-
-  it('should isStudent field error message when the value is not "yes" or "no"', async () => {
-    render(<Form />);
-
-    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
-    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
-
-    act(() => {
-      userEvent.clear(inputIsStuddent);
-      userEvent.click(buttonSubmit);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
-    });
-  });
-
-  it('should isStudent field error message when the first letter of value was in uppercase', async () => {
-    render(<Form />);
-
-    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
-    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
-
-    act(() => {
-      userEvent.clear(inputIsStuddent);
-      userEvent.type(inputIsStuddent, 'Yes');
-      userEvent.click(buttonSubmit);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
-    });
-
-    act(() => {
-      userEvent.clear(inputIsStuddent);
-      userEvent.type(inputIsStuddent, 'No');
-      userEvent.click(buttonSubmit);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText(`Please use 'yes' or 'no'`)).toBeVisible();
-    });
-  });
-
-  it('should confirm password field show error message when the passwords is not equals', async () => {
-    render(<Form />);
-
-    const inputPassword = screen.getByLabelText('Password');
-    const inputConfirmPassword = screen.getByLabelText('Confirm-Password');
-    const buttonSubmit = screen.getByRole('button', { name: /Send/i });
-
-    act(() => {
-      fireEvent.change(inputPassword, { target: { value: 'bruceWayne2023' } });
-      fireEvent.change(inputConfirmPassword, {
-        target: { value: 'bruceWayne202' },
-      });
-
-      userEvent.click(buttonSubmit);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText('The passwords should be equals')).toBeVisible();
     });
   });
 });
