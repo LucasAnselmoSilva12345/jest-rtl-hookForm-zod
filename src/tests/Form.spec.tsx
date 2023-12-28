@@ -8,9 +8,11 @@ import {
   fireEvent,
 } from '@testing-library/react';
 
+const handleSubmitForm = jest.fn();
+
 describe('Form Component', () => {
   beforeEach(() => {
-    render(<Form />);
+    render(<Form handleSubmitForm={handleSubmitForm} />);
   });
 
   it('should render form', () => {});
@@ -25,7 +27,7 @@ describe('Form Component', () => {
     });
     const inputPhotURL = screen.getByRole('textbox', { name: 'Photo-URL' });
     const inputProfession = screen.getByRole('textbox', { name: 'Profession' });
-    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
+    const inputIsStudent = screen.getByRole('textbox', { name: 'Is-Student' });
     const inputCity = screen.getByRole('textbox', { name: 'City' });
     const inputState = screen.getByRole('textbox', { name: 'State' });
     const inputCountry = screen.getByRole('textbox', { name: 'Country' });
@@ -41,7 +43,7 @@ describe('Form Component', () => {
     expect(inputSelectGender).toBeVisible();
     expect(inputPhotURL).toBeVisible();
     expect(inputProfession).toBeVisible();
-    expect(inputIsStuddent).toBeVisible();
+    expect(inputIsStudent).toBeVisible();
     expect(inputCity).toBeVisible();
     expect(inputCountry).toBeVisible();
     expect(inputState).toBeVisible();
@@ -136,11 +138,11 @@ describe('Form Component', () => {
   });
 
   it('should isStudent field error message when the value is not "yes" or "no"', async () => {
-    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
+    const inputIsStudent = screen.getByRole('textbox', { name: 'Is-Student' });
     const buttonSubmit = screen.getByRole('button', { name: /Send/i });
 
     act(() => {
-      userEvent.clear(inputIsStuddent);
+      userEvent.clear(inputIsStudent);
       userEvent.click(buttonSubmit);
     });
 
@@ -150,12 +152,12 @@ describe('Form Component', () => {
   });
 
   it('should isStudent field error message when the first letter of value was in uppercase', async () => {
-    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
+    const inputIsStudent = screen.getByRole('textbox', { name: 'Is-Student' });
     const buttonSubmit = screen.getByRole('button', { name: /Send/i });
 
     act(() => {
-      userEvent.clear(inputIsStuddent);
-      userEvent.type(inputIsStuddent, 'Yes');
+      userEvent.clear(inputIsStudent);
+      userEvent.type(inputIsStudent, 'Yes');
       userEvent.click(buttonSubmit);
     });
 
@@ -164,8 +166,8 @@ describe('Form Component', () => {
     });
 
     act(() => {
-      userEvent.clear(inputIsStuddent);
-      userEvent.type(inputIsStuddent, 'No');
+      userEvent.clear(inputIsStudent);
+      userEvent.type(inputIsStudent, 'No');
       userEvent.click(buttonSubmit);
     });
 
@@ -203,7 +205,7 @@ describe('Form Component', () => {
     });
     const inputPhotURL = screen.getByRole('textbox', { name: 'Photo-URL' });
     const inputProfession = screen.getByRole('textbox', { name: 'Profession' });
-    const inputIsStuddent = screen.getByRole('textbox', { name: 'Is-Student' });
+    const inputIsStudent = screen.getByRole('textbox', { name: 'Is-Student' });
     const inputCity = screen.getByRole('textbox', { name: 'City' });
     const inputState = screen.getByRole('textbox', { name: 'State' });
     const inputCountry = screen.getByRole('textbox', { name: 'Country' });
@@ -212,24 +214,36 @@ describe('Form Component', () => {
     const agreeTerms = screen.getByRole('checkbox', { name: 'Agree-Terms' });
     const buttonSubmit = screen.getByRole('button', { name: /Send/i });
 
+    const mockName = 'Bruce';
+    const mockLastName = 'Wayne';
+    const mockAge = '10';
+    const mockEmail = 'brucewayne@gmail.com';
+    const mockGender = 'Male';
+    const mockPhotoURL =
+      'https://unsplash.com/photos/closeup-photo-of-shuriken-on-wood-n-2_KHgeAy0';
+    const mockIsStudent = 'yes';
+    const mockProfession = 'Businessperson';
+    const mockCity = 'Los Angeles';
+    const mockState = 'Colorado';
+    const mockCountry = 'United State of America';
+    const mockPassword = 'bruceWayne2023';
+    const mockConfirmPassword = 'bruceWayne2023';
+
     act(() => {
-      userEvent.type(inputName, 'Bruce');
-      userEvent.type(inputLastName, 'Wayne');
+      userEvent.type(inputName, mockName);
+      userEvent.type(inputLastName, mockLastName);
       userEvent.clear(inputAge);
-      userEvent.type(inputAge, '10');
-      userEvent.type(inputEmail, 'brucewayne@gmail.com');
-      userEvent.type(inputSelectGender, 'Male');
-      userEvent.type(
-        inputPhotURL,
-        'https://unsplash.com/photos/closeup-photo-of-shuriken-on-wood-n-2_KHgeAy0'
-      );
-      userEvent.type(inputIsStuddent, 'yes');
-      userEvent.type(inputProfession, 'Businessperson');
-      userEvent.type(inputCity, 'Los Angeles');
-      userEvent.type(inputState, 'Colorado');
-      userEvent.type(inputCountry, 'United State of America');
-      userEvent.type(inputPassword, 'bruceWayne2023');
-      userEvent.type(inputConfirmPassword, 'bruceWayne2023');
+      userEvent.type(inputAge, mockAge);
+      userEvent.type(inputEmail, mockEmail);
+      userEvent.type(inputSelectGender, mockGender);
+      userEvent.type(inputPhotURL, mockPhotoURL);
+      userEvent.type(inputIsStudent, mockIsStudent);
+      userEvent.type(inputProfession, mockProfession);
+      userEvent.type(inputCity, mockCity);
+      userEvent.type(inputState, mockState);
+      userEvent.type(inputCountry, mockCountry);
+      userEvent.type(inputPassword, mockPassword);
+      userEvent.type(inputConfirmPassword, mockConfirmPassword);
       userEvent.click(agreeTerms);
       userEvent.click(buttonSubmit);
     });

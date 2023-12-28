@@ -7,15 +7,18 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Warning } from './Warning';
 
-type FormProps = z.infer<typeof formSchema>;
+export type FormSchemaProps = z.infer<typeof formSchema>;
 
-export function Form() {
+interface FormProps {
+  handleSubmitForm: (data: FormSchemaProps) => void;
+}
+
+export function Form({ handleSubmitForm }: FormProps) {
   const {
     handleSubmit,
     register,
     formState: { errors },
-    reset,
-  } = useForm<FormProps>({
+  } = useForm<FormSchemaProps>({
     mode: 'all',
     criteriaMode: 'all',
     reValidateMode: 'onChange',
@@ -38,23 +41,8 @@ export function Form() {
     },
   });
 
-  console.log(errors);
-
-  const handleForm = (data: FormProps) => {
-    console.log({ data });
-    reset();
-    try {
-      const result = formSchema.parse(data);
-      console.log({ result });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        console.error(error.flatten());
-      }
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit(handleForm)}>
+    <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col items-center justify-between gap-4 lg:flex-row">
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="name">Name</Label>
