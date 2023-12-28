@@ -3,5 +3,7 @@ interface WarningProps {
 }
 
 export function Warning({ message }: WarningProps) {
-  return <span className="text-sm font-normal text-red-500">{message}</span>;
+  return (
+    <span className="mb-1 text-sm font-normal text-red-500">{message}</span>
+  );
 }
