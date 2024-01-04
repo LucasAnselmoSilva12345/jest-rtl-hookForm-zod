@@ -6,7 +6,7 @@ export function Home() {
   };
 
   return (
-    <section className="container pt-4">
+    <section className="container py-4">
       <Form handleSubmitForm={handleSubmitForm} />
     </section>
   );
