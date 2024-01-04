@@ -1,30 +1,47 @@
-# React + TypeScript + Vite
+# Validate Form Fields
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a study about on validating form fields using modern technologies such as React, TypeScript, Zod, Hook-Form, Jest e React-Testing-Library.
 
-Currently, two official plugins are available:
+## Objective
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The main focus of this project is to demonstrate validation of different types form fields including text, password, option selection, quantity, and checkbox. We use the aforementioned technologies to create an efficient and secure user experience when interacting with form.
 
-## Expanding the ESLint configuration
+## Methodology of Development
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+This project was developed following the Test Drive Development (TDD) methodology. For each form fields validation, a corresponding unit test was created, ensuring the precision and correctness validations.
 
-- Configure the top-level `parserOptions` property like this:
+## URL Address of the project
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+- [https://jest-rtl-hookform-zod.pages.dev/](https://jest-rtl-hookform-zod.pages.dev/)
+
+## How to run this project?
+
+The project can be run using following command:
+
+```base
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## How to run the Tests?
+
+The tests can be run using following command:
+
+```bash
+npm run test
+```
+
+It is also possible to run individual tests for specific areas of the project using the command:
+
+```bash
+npm run test:Filename
+```
+
+Where "Filename" can be replaced with the following values: 'home', 'route', 'header', 'modetoggletheme', 'form'. This will allow testing specific code units, ensuring the integrity of functionalities in different areas of the project.  
+
+## Technologies Used
+
+- **React:** Used by constructed user interface in a declarative and efficient way.
+- **TypeScript:** Provides static typing to detect and prevent errors during development.
+- **Zod:** Library used to data validation.
+- **Hook-Form:** Make it easier the creation of dynamics and interactive forms.
+- **Jest e React-Testing-Library:** Testing tools used to ensure the code and functionality quality.
